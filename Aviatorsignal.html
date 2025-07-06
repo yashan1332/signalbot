@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>SL DARK HACKER AVIATOR SIGNAL BOT AI</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #000000, #1f1c2c); /* Static gradient */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .scroll-title {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      margin-bottom: 40px;
+    }
+
+    .scroll-title span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 8s linear infinite;
+      font-size: 24px;
+      color: #00e5ff;
+    }
+
+    @keyframes marquee {
+      0%   { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .signal-box {
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00f2fe;
+      border-radius: 15px;
+      padding: 20px;
+      width: 600px;
+      box-shadow: 0 0 30px cyan;
+      white-space: pre-wrap;
+      text-align: center;
+      font-size: 17px;
+      user-select: text;
+      position: relative;
+    }
+
+    .powered-by {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #00aaff;
+      font-style: italic;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Title scroll -->
+  <div class="scroll-title">
+    <span>SL DARK HACKER AVIATOR SIGNAL BOT AI</span>
+  </div>
+
+  <!-- Signal display box -->
+  <div>
+    <div id="signalDisplay" class="signal-box">Loading signal...</div>
+    <div class="powered-by">powered by Sl Dark Hacker Admin Yashan</div>
+  </div>
+
+  <script>
+    function formatTime(date) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function getNextRoundedTime(intervalMinutes = 5) {
+      const now = new Date();
+      const ms = now.getTime();
+      const intervalMs = intervalMinutes * 60 * 1000;
+      const roundedMs = Math.ceil(ms / intervalMs) * intervalMs;
+      return new Date(roundedMs);
+    }
+
+    function generateSignal() {
+      const startTime = getNextRoundedTime(5);
+      const endTime = new Date(startTime.getTime() + 3 * 60000);
+
+      const minMulti = 3;
+      const maxMulti = 5;
+      const stars = '⭐'.repeat(Math.floor(Math.random() * 3 + 3));
+
+      const signalText = `🎯 High Odds Signal 🎯
+
+🕒 Time: ${formatTime(startTime)} – ${formatTime(endTime)}
+
+🎯 Target Odd: ${minMulti}x – ${maxMulti}x
+
+⚡ Signal Strength: ${stars}`;
+
+      const signal = {
+        text: signalText,
+        endTimestamp: endTime.getTime()
+      };
+
+      localStorage.setItem('current_signal', JSON.stringify(signal));
+      return signal;
+    }
+
+    function loadOrGenerateSignal() {
+      let saved = localStorage.getItem('current_signal');
+      let signal;
+      const now = Date.now();
+
+      if (saved) {
+        signal = JSON.parse(saved);
+        if (now > signal.endTimestamp) {
+          signal = generateSignal();
+        }
+      } else {
+        signal = generateSignal();
+      }
+
+      document.getElementById('signalDisplay').textContent = signal.text;
+    }
+
+    loadOrGenerateSignal();
+    setInterval(loadOrGenerateSignal, 30000);
+  </script>
+</body>
+</html>
